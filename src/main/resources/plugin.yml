@@ -1,0 +1,5 @@
+name: SakuraCustomItems
+main: cn.sakuratown.jeremyhu.customitems.CustomItems
+version: 1.0
+author: JeremyHu
+api-version: 1.16
