@@ -4,6 +4,7 @@ import cn.sakuratown.jeremyhu.customitems.CustomItems;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,11 +19,7 @@ import java.util.List;
 
 public class FileUtil {
 
-    private CustomItems plugin;
-
-    public FileUtil(CustomItems plugin){
-        this.plugin = plugin;
-    }
+    private static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
 
     public List<File> getFiles(File dir){
 

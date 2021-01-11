@@ -1,5 +1,7 @@
 package cn.sakuratown.jeremyhu.customitems.items;
 
+import org.bukkit.event.player.PlayerInteractEvent;
+
 import java.util.UUID;
 
 public class Item {
@@ -24,7 +26,7 @@ public class Item {
         return UUID.fromString(uuid);
     }
 
-    public void trigger(){
+    public void trigger(PlayerInteractEvent event){
 
     }
 }

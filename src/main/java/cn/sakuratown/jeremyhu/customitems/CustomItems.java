@@ -6,6 +6,7 @@ import cn.sakuratown.jeremyhu.customitems.listeners.PlayerInteractListener;
 import cn.sakuratown.jeremyhu.customitems.utils.FileUtil;
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,10 +24,12 @@ public class CustomItems extends JavaPlugin {
 
     public static final ItemFactory FACTORY = new ItemFactory();
     //定义物品工厂类
-    public final FileUtil FILE_UTIL = new FileUtil(this);
+    public final FileUtil FILE_UTIL = new FileUtil();
     //定义文件读取实用类
-    private HashMap<UUID, Item> itemHashMap = new HashMap<>();
+    private HashMap<UUID, Item> itemHashMap = new HashMap<UUID, Item>();
+    public static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
     //定义存储UUID和物品的hashmap
+    public static final NamespacedKey uuid = new NamespacedKey(plugin,"uuid");
 
     @Override
     public void onEnable(){
@@ -34,10 +37,6 @@ public class CustomItems extends JavaPlugin {
         //初始化物品hashmap
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(this),this);
         //注册玩家交互监听器
-    }
-
-    public static Plugin getInstance(){
-        return Bukkit.getPluginManager().getPlugin("SakuraCustomItems");
     }
 
     public HashMap<UUID, Item> getItemHashMap() {
@@ -55,4 +54,6 @@ public class CustomItems extends JavaPlugin {
         });
         //遍历，重新映射hashmap
     }
+
+
 }
