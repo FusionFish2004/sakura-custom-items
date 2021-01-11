@@ -19,7 +19,11 @@ import java.util.List;
 
 public class FileUtil {
 
-    private static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
+    private CustomItems plugin;
+
+    public FileUtil(CustomItems plugin){
+        this.plugin = plugin;
+    }
 
     public List<File> getFiles(File dir){
 

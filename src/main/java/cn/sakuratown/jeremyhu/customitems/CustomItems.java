@@ -22,14 +22,12 @@ import java.util.UUID;
 
 public class CustomItems extends JavaPlugin {
 
-    public static final ItemFactory FACTORY = new ItemFactory();
+    public final ItemFactory FACTORY = new ItemFactory(this);
     //定义物品工厂类
-    public final FileUtil FILE_UTIL = new FileUtil();
+    public final FileUtil FILE_UTIL = new FileUtil(this);
     //定义文件读取实用类
     private HashMap<UUID, Item> itemHashMap = new HashMap<UUID, Item>();
-    public static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
     //定义存储UUID和物品的hashmap
-    public static final NamespacedKey uuid = new NamespacedKey(plugin,"uuid");
 
     @Override
     public void onEnable(){
@@ -54,6 +52,5 @@ public class CustomItems extends JavaPlugin {
         });
         //遍历，重新映射hashmap
     }
-
 
 }

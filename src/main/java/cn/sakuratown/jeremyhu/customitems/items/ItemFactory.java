@@ -2,7 +2,6 @@ package cn.sakuratown.jeremyhu.customitems.items;
 
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
@@ -13,7 +12,11 @@ import java.util.UUID;
 
 public class ItemFactory {
 
-    private static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
+    private CustomItems plugin;
+
+    public ItemFactory(CustomItems plugin){
+        this.plugin = plugin;
+    }
 
     public static Item getItem(UUID uuid){
         return null;
