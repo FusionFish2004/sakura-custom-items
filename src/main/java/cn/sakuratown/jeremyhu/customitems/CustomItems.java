@@ -4,11 +4,14 @@ import cn.sakuratown.jeremyhu.customitems.items.Item;
 import cn.sakuratown.jeremyhu.customitems.items.ItemFactory;
 import cn.sakuratown.jeremyhu.customitems.listeners.PlayerInteractListener;
 import cn.sakuratown.jeremyhu.customitems.utils.FileUtil;
+import com.google.gson.Gson;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,6 +30,8 @@ public class CustomItems extends JavaPlugin {
 
     @Override
     public void onEnable(){
+        initItemMap();
+        //初始化物品hashmap
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(this),this);
         //注册玩家交互监听器
     }
@@ -39,4 +44,15 @@ public class CustomItems extends JavaPlugin {
         return itemHashMap;
     }
 
+    public void initItemMap(){
+        List<File> files = FILE_UTIL.getFiles(new File(getDataFolder(),"items"));
+        //获取items目录下所有文件
+        if(files == null || files.isEmpty()) return;
+        //如果为空则返回
+        files.forEach(file -> {
+            Item item = new Gson().fromJson(FILE_UTIL.getJson(file),Item.class);
+            itemHashMap.merge(item.getUuid(), item, (oldItem, newItem) -> newItem);
+        });
+        //遍历，重新映射hashmap
+    }
 }
