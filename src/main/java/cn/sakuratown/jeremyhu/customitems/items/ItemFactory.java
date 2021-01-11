@@ -1,6 +1,5 @@
 package cn.sakuratown.jeremyhu.customitems.items;
 
-import org.bukkit.inventory.ItemStack;
 
 /**
  * 工厂模式
@@ -8,12 +7,7 @@ import org.bukkit.inventory.ItemStack;
  */
 
 public class ItemFactory {
-    public static Item getItem(ItemStack is){
-
-        
-
+    public static Item getItem(String js){
         return null;
     }
-
-
 }
