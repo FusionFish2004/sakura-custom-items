@@ -37,7 +37,7 @@ public class PlayerInteractListener implements Listener {
         UUID uuid = ItemUtil.getItemUUID(itemMeta);
         //获取UUID
         if(plugin.getItemHashMap().keySet().contains(uuid)){
-            plugin.getItemHashMap().get(uuid).trigger(player);
+            plugin.getItemHashMap().get(uuid).trigger(event);
             //触发物品事件
         }else throw new RuntimeException();
     }

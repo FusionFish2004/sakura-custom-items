@@ -20,6 +20,7 @@ public class Item {
     private String type;
     private String uuid;
     private long CD;
+    private String material;
 
     public Item(UUID uuid){
         this.uuid = uuid.toString();
@@ -37,7 +38,8 @@ public class Item {
         return UUID.fromString(uuid);
     }
 
-    public void trigger(Player player){
+    public void trigger(PlayerInteractEvent event){
+        Player player = event.getPlayer();
         if(!checkCD(player)) return;
     }
 
