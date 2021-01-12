@@ -36,9 +36,6 @@ public class PlayerInteractListener implements Listener {
         //检测物品meta是否拥有uuid数据，若否则返回
         UUID uuid = ItemUtil.getItemUUID(itemMeta);
         //获取UUID
-        if(plugin.getItemHashMap().keySet().contains(uuid)){
-            plugin.getItemHashMap().get(uuid).trigger(event);
-            //触发物品事件
-        }else throw new RuntimeException();
+
     }
 }
