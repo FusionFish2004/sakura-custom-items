@@ -1,6 +1,7 @@
 package cn.sakuratown.jeremyhu.customitems.items;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
+import cn.sakuratown.jeremyhu.customitems.enchantments.Enchantment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.NamespacedKey;
@@ -29,33 +30,35 @@ public class ItemUtil {
 
     public static boolean isItem(ItemMeta itemMeta){
         PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-        return persistentDataContainer.has(DAMAGE, PersistentDataType.STRING);
+        return persistentDataContainer.has(DAMAGE, PersistentDataType.INTEGER);
     }
 
 
     public static ItemMeta createMeta(ItemMeta itemMeta) {
         PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-        itemMeta.setDisplayName(persistentDataContainer.get(NAME, PersistentDataType.STRING));
+        itemMeta.setDisplayName("§f" + persistentDataContainer.get(NAME, PersistentDataType.STRING));
         List<String> lore = new ArrayList<>();
         lore.add(persistentDataContainer.get(TYPE, PersistentDataType.STRING));
 
         String jsonString = persistentDataContainer.get(ENCHANTMENTS, PersistentDataType.STRING);
         if (!"{[]}".equals(jsonString)) {
-            lore.add("-------------");
-            List<Item.Enchantment> enchantments = new Gson().fromJson(jsonString, new TypeToken<List<Item.Enchantment>>() {}.getType());
+            lore.add("§f-------------");
+            List<Enchantment> enchantments = new Gson().fromJson(jsonString, new TypeToken<List<Enchantment>>() {}.getType());
             enchantments.forEach(enchantment -> {
                 String type = enchantment.getType();
                 String lvl = getLvl(enchantment.getLvl());
-                lore.add(type + lvl);
+                lore.add("§1" + type + lvl);
             });
         }
-        lore.add("-------------");
-        lore.add("基础伤害：" + String.valueOf(persistentDataContainer.get(DAMAGE, PersistentDataType.INTEGER)));
+        lore.add("§f-------------");
+        lore.add("§f基础伤害：§7§l" + String.valueOf(persistentDataContainer.get(DAMAGE, PersistentDataType.INTEGER)));
+        lore.add("§f冷却时间：§7§l" + String.valueOf(persistentDataContainer.get(COOL_DOWN, PersistentDataType.INTEGER)));
         itemMeta.setLore(lore);
         return itemMeta;
     }
 
     public static String getLvl(int lvl){
+        //罗马数字转换
         switch (lvl){
             case 1:
                 return "I";

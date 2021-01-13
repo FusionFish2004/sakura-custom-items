@@ -1,7 +1,10 @@
 package cn.sakuratown.jeremyhu.customitems.items;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
+import cn.sakuratown.jeremyhu.customitems.customitems.Gun;
+import cn.sakuratown.jeremyhu.customitems.enchantments.Enchantment;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +13,10 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ItemBuilder {
 
@@ -20,14 +26,15 @@ public class ItemBuilder {
     private static final NamespacedKey DAMAGE = new NamespacedKey(plugin,"damage");
     private static final NamespacedKey ENCHANTMENTS = new NamespacedKey(plugin,"enchantments");
     private static final NamespacedKey TYPE = new NamespacedKey(plugin,"type");
+    private static final Set<NamespacedKey> keySet = new HashSet<>(Arrays.asList(NAME,COOL_DOWN,DAMAGE,ENCHANTMENTS,TYPE));
 
-    private List<Item.Enchantment> enchantments;
+    private List<Enchantment> enchantments;
     private String name;
     private int damage;
     private int cd;
     private String type;
 
-    public ItemBuilder enchantments(List<Item.Enchantment> enchantments){
+    public ItemBuilder enchantments(List<Enchantment> enchantments){
         this.enchantments = enchantments;
         return this;
     }
@@ -72,6 +79,48 @@ public class ItemBuilder {
         itemMeta = ItemUtil.createMeta(itemMeta);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
+
+    public Item getItem(){
+        Item item = new Item();
+        item.setDamage(damage);
+        item.setCD(cd);
+        item.setName(name);
+        item.setEnchantments(enchantments);
+        item.setType(type);
+        return item;
+    }
+
+    public static Item buildItem(ItemMeta itemMeta){
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        int damage = container.get(DAMAGE, PersistentDataType.INTEGER);
+        String name = container.get(NAME, PersistentDataType.STRING);
+        int CD = container.get(COOL_DOWN, PersistentDataType.INTEGER);
+        String type = container.get(TYPE, PersistentDataType.STRING);
+
+        Item item = ItemBuilder.getInstance()
+                .cd(CD)
+                .name(name)
+                .damage(damage)
+                .type(type)
+                .getItem();
+
+        String jsonString = container.get(ENCHANTMENTS,PersistentDataType.STRING);
+        if(!"{[]}".equals(jsonString)){
+            List<Enchantment> enchantments = new Gson().fromJson(jsonString, new TypeToken<List<Enchantment>>() {}.getType());
+            item.setEnchantments(enchantments);
+        }
+
+        return facture(item);
+    }
+
+    public static Item facture(Item item){
+        String type = item.getType();
+        switch(type.toLowerCase()){
+            case "gun":
+                return Gun.fromItem(item);
+        }
+        return item;
     }
 
     public static ItemBuilder getInstance(){
