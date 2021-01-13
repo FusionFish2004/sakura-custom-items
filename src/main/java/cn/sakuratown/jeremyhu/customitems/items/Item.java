@@ -15,6 +15,7 @@ public class Item {
     private String name;
     private int CD;
     private List<Enchantment> enchantments;
+    private int damage;
 
     public String getName() {
         return name;
@@ -36,6 +37,14 @@ public class Item {
     class Enchantment {
         private String type;
         private int lvl;
+
+        public int getLvl() {
+            return lvl;
+        }
+
+        public String getType() {
+            return type;
+        }
     }
 
     public void setMeta(Meta meta){

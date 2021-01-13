@@ -1,7 +1,6 @@
 package cn.sakuratown.jeremyhu.customitems.items;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
-import cn.sakuratown.jeremyhu.customitems.utils.ItemUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.NamespacedKey;

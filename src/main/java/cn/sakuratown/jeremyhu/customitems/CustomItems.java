@@ -31,9 +31,9 @@ public class CustomItems extends JavaPlugin {
             if (!(sender instanceof Player)) {
                 return true;
             }
-
+            //命令发送者不属于玩家，返回
             Player player = (Player) sender;
-            
+
             return true;
         }
         return false;
