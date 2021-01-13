@@ -9,7 +9,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,19 +33,24 @@ public class ItemUtil {
     }
 
 
-    public static ItemMeta createMeta(ItemMeta itemMeta){
+    public static ItemMeta createMeta(ItemMeta itemMeta) {
         PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-        itemMeta.setDisplayName(persistentDataContainer.get(NAME,PersistentDataType.STRING));
-        List<String> lore = Arrays.asList(
-                persistentDataContainer.get(TYPE,PersistentDataType.STRING),
-                "-------------");
-        String jsonString = persistentDataContainer.get(ENCHANTMENTS,PersistentDataType.STRING);
-        List<Item.Enchantment> enchantments = new Gson().fromJson(jsonString,new TypeToken<List<Item.Enchantment>>(){}.getType());
-        enchantments.forEach(enchantment -> {
-            String type = enchantment.getType();
-            String lvl = getLvl(enchantment.getLvl());
-            lore.add(type + lvl);
-        });
+        itemMeta.setDisplayName(persistentDataContainer.get(NAME, PersistentDataType.STRING));
+        List<String> lore = new ArrayList<>();
+        lore.add(persistentDataContainer.get(TYPE, PersistentDataType.STRING));
+
+        String jsonString = persistentDataContainer.get(ENCHANTMENTS, PersistentDataType.STRING);
+        if (!"{[]}".equals(jsonString)) {
+            lore.add("-------------");
+            List<Item.Enchantment> enchantments = new Gson().fromJson(jsonString, new TypeToken<List<Item.Enchantment>>() {}.getType());
+            enchantments.forEach(enchantment -> {
+                String type = enchantment.getType();
+                String lvl = getLvl(enchantment.getLvl());
+                lore.add(type + lvl);
+            });
+        }
+        lore.add("-------------");
+        lore.add("基础伤害：" + String.valueOf(persistentDataContainer.get(DAMAGE, PersistentDataType.INTEGER)));
         itemMeta.setLore(lore);
         return itemMeta;
     }

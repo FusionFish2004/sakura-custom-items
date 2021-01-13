@@ -10,8 +10,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.UUID;
-
 
 /**
  * 玩家交互监听器
@@ -24,7 +22,7 @@ public class PlayerInteractListener implements Listener {
 
     public PlayerInteractListener(CustomItems plugin){
         this.plugin = plugin;
-        plugin.getLogger().info(this.getClass().getName() + "registered.");
+        plugin.getLogger().info(this.getClass().getName() + " registered.");
     }
 
     @EventHandler
@@ -36,9 +34,7 @@ public class PlayerInteractListener implements Listener {
         ItemMeta itemMeta = itemStack.getItemMeta();
         //获取物品meta
         if(!ItemUtil.isItem(itemMeta)) return;
-        //检测物品meta是否拥有uuid数据，若否则返回
-        UUID uuid = ItemUtil.getItemUUID(itemMeta);
-        //获取UUID
+        //检测物品meta是否拥有数据，若否则返回
 
     }
 }

@@ -1,10 +1,13 @@
 package cn.sakuratown.jeremyhu.customitems.items;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
+import com.google.gson.Gson;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -50,12 +53,29 @@ public class ItemBuilder {
     }
 
     public ItemStack build(){
-        ItemStack itemStack = new ItemStack(Material.PRISMARINE_SHARD);
+        ItemStack itemStack = new ItemStack(Material.LEATHER_HORSE_ARMOR);
         if(damage == 0 || cd == 0 || name == "") return itemStack;
         //若没有存储数据，则返回普通物品
-        ItemMeta itemMeta = ItemUtil.createMeta(itemStack.getItemMeta());
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        PersistentDataContainer container = itemMeta.getPersistentDataContainer();
+        container.set(DAMAGE, PersistentDataType.INTEGER, this.damage);
+        container.set(NAME, PersistentDataType.STRING, this.name);
+        container.set(COOL_DOWN, PersistentDataType.INTEGER, this.cd);
+        container.set(TYPE, PersistentDataType.STRING, this.type);
+
+        if(enchantments == null){
+            container.set(ENCHANTMENTS,PersistentDataType.STRING,"{[]}");
+        }else{
+            container.set(ENCHANTMENTS,PersistentDataType.STRING,new Gson().toJson(enchantments));
+        }
+
+        itemMeta = ItemUtil.createMeta(itemMeta);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
 
+    public static ItemBuilder getInstance(){
+        //获取实例
+        return new ItemBuilder();
     }
 }

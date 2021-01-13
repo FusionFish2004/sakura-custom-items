@@ -1,5 +1,6 @@
 package cn.sakuratown.jeremyhu.customitems;
 
+import cn.sakuratown.jeremyhu.customitems.items.ItemBuilder;
 import cn.sakuratown.jeremyhu.customitems.listeners.PlayerInteractListener;
 import cn.sakuratown.jeremyhu.customitems.utils.FileUtil;
 import org.bukkit.Bukkit;
@@ -33,7 +34,8 @@ public class CustomItems extends JavaPlugin {
             }
             //命令发送者不属于玩家，返回
             Player player = (Player) sender;
-
+            player.getInventory().addItem(ItemBuilder.getInstance().cd(1).damage(10).type("123").name("233").build());
+            player.sendMessage("已经给予你一个特殊物品");
             return true;
         }
         return false;
