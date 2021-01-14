@@ -13,10 +13,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ItemBuilder {
 
@@ -28,7 +25,7 @@ public class ItemBuilder {
     private static final NamespacedKey TYPE = new NamespacedKey(plugin,"type");
     private static final Set<NamespacedKey> keySet = new HashSet<>(Arrays.asList(NAME,COOL_DOWN,DAMAGE,ENCHANTMENTS,TYPE));
 
-    private List<Enchantment> enchantments;
+    private List<Enchantment> enchantments = new ArrayList<>();
     private String name;
     private int damage;
     private int cd;

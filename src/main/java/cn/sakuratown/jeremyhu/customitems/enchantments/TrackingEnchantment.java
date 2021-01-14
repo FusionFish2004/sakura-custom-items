@@ -1,9 +1,11 @@
 package cn.sakuratown.jeremyhu.customitems.enchantments;
 
 import cn.sakuratown.jeremyhu.customitems.weapon.Bullet;
+import cn.sakuratown.jeremyhu.customitems.weapon.TracingBullet;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 子弹追踪附魔
@@ -20,14 +22,13 @@ public class TrackingEnchantment extends GunEnchantment{
     }
 
     @Override
-    public void trigger(Player player, List<Bullet> bullets){
-        player.sendMessage("track");
-        if(bullets.isEmpty()) return;
-        /*
-        bullets.stream()
-                .map(bullet -> (TracingBullet)bullet)
-                .forEach(TracingBullet::run);
+    public List<Bullet> trigger(Player player, List<Bullet> bullets){
+        if(bullets.isEmpty()) return bullets;
 
-         */
+        return bullets.stream()
+                .map(TracingBullet::fromBullet)
+                .collect(Collectors.toList());
+
     }
+
 }

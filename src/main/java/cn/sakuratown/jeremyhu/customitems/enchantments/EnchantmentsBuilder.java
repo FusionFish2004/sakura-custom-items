@@ -37,4 +37,12 @@ public class EnchantmentsBuilder {
     public String getJson(){
         return new Gson().toJson(enchantmentList);
     }
+
+    public static GunEnchantment toGunEnchantment(Enchantment enchantment){
+        switch (enchantment.getType()){
+            case "TrackingEnchantment":
+                return new TrackingEnchantment();
+        }
+        return new GunEnchantment();
+    }
 }

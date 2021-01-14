@@ -1,9 +1,8 @@
 package cn.sakuratown.jeremyhu.customitems.weapon;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -60,6 +59,18 @@ public class Bullet extends BukkitRunnable {
         return position;
     }
 
+    public double getHealth() {
+        return health;
+    }
+
+    public void setDirection(Vector direction) {
+        this.direction = direction;
+    }
+
+    public void setPosition(Location position) {
+        this.position = position;
+    }
+
     @Override
     public void run() {
 
@@ -89,6 +100,10 @@ public class Bullet extends BukkitRunnable {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
                     livingEntity.damage(damage,shooter);
+
+                    Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255,0,0),3);
+                    world.spawnParticle(Particle.REDSTONE,position, 5,0.2,0.2,0.2,0.00001,dustOptions);
+
                 } else {
                     entity.remove();
                 }
@@ -100,6 +115,9 @@ public class Bullet extends BukkitRunnable {
 
         if (!world.getBlockAt(position).isPassable()) {
             collide();
+            BlockData blockData = world.getBlockAt(position).getBlockData();
+            world.spawnParticle(Particle.BLOCK_CRACK,position,7,0.5,0.5,0.5,0.0001,blockData);
+            world.playSound(position, Sound.BLOCK_STONE_BREAK,SoundCategory.MASTER,0.5F,1F);
             return;
         }
         //检测方块碰撞
@@ -107,6 +125,7 @@ public class Bullet extends BukkitRunnable {
 
     public void collide(){
         //碰撞时触发本方法
+
         this.cancel();
     }
 

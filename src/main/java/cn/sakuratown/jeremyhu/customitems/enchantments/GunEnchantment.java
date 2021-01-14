@@ -21,17 +21,7 @@ public class GunEnchantment extends Enchantment{
         return true;
     }
 
-    public static GunEnchantment toGunEnchantment(Enchantment enchantment){
-        switch (enchantment.getType().toLowerCase()){
-            case "TrackingEnchantment":
-                return new TrackingEnchantment();
-        }
-        return new GunEnchantment();
-    }
-
-
-
-    public void trigger(Player player, List<Bullet> bullets){
-
+    public List<Bullet> trigger(Player player, List<Bullet> bullets){
+        return bullets;
     }
 }

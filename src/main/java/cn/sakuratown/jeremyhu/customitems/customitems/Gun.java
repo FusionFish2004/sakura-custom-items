@@ -2,6 +2,7 @@ package cn.sakuratown.jeremyhu.customitems.customitems;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
 import cn.sakuratown.jeremyhu.customitems.enchantments.Enchantment;
+import cn.sakuratown.jeremyhu.customitems.enchantments.EnchantmentsBuilder;
 import cn.sakuratown.jeremyhu.customitems.enchantments.GunEnchantment;
 import cn.sakuratown.jeremyhu.customitems.items.Item;
 import cn.sakuratown.jeremyhu.customitems.utils.ActionBarUtil;
@@ -19,6 +20,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 枪械类,继承物品类
@@ -29,8 +31,8 @@ public class Gun extends Item {
 
     private static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
 
-    private double health = 100;
-    private double speed = 1;
+    private double health = 200;
+    private double speed = 0.5;
     private static final int maxClip = 35;
 
     private int clip;
@@ -92,18 +94,25 @@ public class Gun extends Item {
         Vector direction = player.getLocation().getDirection();
         Location start = player.getEyeLocation();
 
-        List<Enchantment> enchantments = getEnchantments();
-        if(enchantments.isEmpty()) {
+        List<Enchantment> enchantments = this.getEnchantments();
+        if(enchantments == null || enchantments.isEmpty()) {
             //没有附魔
             Bullet bullet = new Bullet(start, direction, health, speed, player, getDamage());
             bullet.start();
         }else{
+
             List<Bullet> bullets = new ArrayList<>();
             bullets.add(new Bullet(start, direction, health, speed, player, getDamage()));
-            enchantments.stream()
+
+            List<GunEnchantment> gunEnchantments = enchantments.stream()
                     .filter(enchantment -> "GunEnchantment".equalsIgnoreCase(enchantment.getCatagory()))
-                    .map(GunEnchantment::toGunEnchantment)
-                    .forEach(gunEnchantment -> gunEnchantment.trigger(player,bullets));
+                    .map(EnchantmentsBuilder::toGunEnchantment)
+                    .collect(Collectors.toList());
+            for(GunEnchantment gunEnchantment : gunEnchantments){
+                bullets = gunEnchantment.trigger(player,bullets);
+            }
+
+            bullets.forEach(Bullet::start);
         }
     }
 

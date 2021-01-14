@@ -40,9 +40,10 @@ public class CustomItems extends JavaPlugin {
             }
             //命令发送者不属于玩家，返回
             Player player = (Player) sender;
+            if(!player.isOp()) return false;
             player.getInventory().addItem(ItemBuilder.getInstance()
-                    .cd(6)
-                    .damage(15)
+                    .cd(3)
+                    .damage(50)
                     .type("Gun")
                     .name("小E的牛子")
                     .enchantments(EnchantmentsBuilder.getInstance()
