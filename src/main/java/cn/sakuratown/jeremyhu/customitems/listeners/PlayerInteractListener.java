@@ -23,7 +23,7 @@ public class PlayerInteractListener implements Listener {
     private static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
 
     public PlayerInteractListener(){
-        plugin.getLogger().info(this.getClass().getTypeName() + " registered.");
+        plugin.getLogger().info(this.getClass().getSimpleName() + " registered.");
     }
 
     @EventHandler

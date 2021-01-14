@@ -40,21 +40,45 @@ public class Bullet extends BukkitRunnable {
         this.damage = damage;
     }
 
+    public double getSpeed() {
+        return speed;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public Vector getDirection() {
+        return direction;
+    }
+
+    public Player getShooter() {
+        return shooter;
+    }
+
+    public Location getPosition() {
+        return position;
+    }
+
     @Override
     public void run() {
 
         checkCollision();
+        runBasic();
+        position.add(direction.clone().multiply(speed));
+        drawParticle();
+    }
 
+    public void runBasic(){
         if(i >= health){
             this.cancel();
         }
         i++;
+    }
 
-        position.add(direction.clone().multiply(speed));
-
+    public void drawParticle(){
         world.spawnParticle(Particle.BUBBLE_POP, position, 1, 0, 0, 0, 0.1);
         //绘制粒子
-
     }
 
     public void checkCollision() {

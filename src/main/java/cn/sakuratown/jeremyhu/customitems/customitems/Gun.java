@@ -1,6 +1,8 @@
 package cn.sakuratown.jeremyhu.customitems.customitems;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
+import cn.sakuratown.jeremyhu.customitems.enchantments.Enchantment;
+import cn.sakuratown.jeremyhu.customitems.enchantments.GunEnchantment;
 import cn.sakuratown.jeremyhu.customitems.items.Item;
 import cn.sakuratown.jeremyhu.customitems.utils.ActionBarUtil;
 import cn.sakuratown.jeremyhu.customitems.weapon.Bullet;
@@ -14,6 +16,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 枪械类,继承物品类
@@ -86,9 +91,20 @@ public class Gun extends Item {
         ActionBarUtil.sendActionBar(player, "§f§l" + clip + " | " + maxClip);
         Vector direction = player.getLocation().getDirection();
         Location start = player.getEyeLocation();
-        Bullet bullet = new Bullet(start,direction,health,speed,player,getDamage());
-        bullet.start();
 
+        List<Enchantment> enchantments = getEnchantments();
+        if(enchantments.isEmpty()) {
+            //没有附魔
+            Bullet bullet = new Bullet(start, direction, health, speed, player, getDamage());
+            bullet.start();
+        }else{
+            List<Bullet> bullets = new ArrayList<>();
+            bullets.add(new Bullet(start, direction, health, speed, player, getDamage()));
+            enchantments.stream()
+                    .filter(enchantment -> "GunEnchantment".equalsIgnoreCase(enchantment.getCatagory()))
+                    .map(GunEnchantment::toGunEnchantment)
+                    .forEach(gunEnchantment -> gunEnchantment.trigger(player,bullets));
+        }
     }
 
     public void reload(Player player){

@@ -22,7 +22,7 @@ public class EntityDamageByEntityListener implements Listener {
     private static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
 
     public EntityDamageByEntityListener(){
-        plugin.getLogger().info(this.getClass().getTypeName() + " registered.");
+        plugin.getLogger().info(this.getClass().getSimpleName() + " registered.");
     }
 
     @EventHandler

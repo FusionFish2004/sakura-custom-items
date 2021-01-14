@@ -3,8 +3,8 @@ package cn.sakuratown.jeremyhu.customitems.items;
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
 import cn.sakuratown.jeremyhu.customitems.customitems.Gun;
 import cn.sakuratown.jeremyhu.customitems.enchantments.Enchantment;
+import cn.sakuratown.jeremyhu.customitems.enchantments.EnchantmentsBuilder;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -107,7 +107,7 @@ public class ItemBuilder {
 
         String jsonString = container.get(ENCHANTMENTS,PersistentDataType.STRING);
         if(!"{[]}".equals(jsonString)){
-            List<Enchantment> enchantments = new Gson().fromJson(jsonString, new TypeToken<List<Enchantment>>() {}.getType());
+            List<Enchantment> enchantments = EnchantmentsBuilder.fromJson(jsonString).build();
             item.setEnchantments(enchantments);
         }
 

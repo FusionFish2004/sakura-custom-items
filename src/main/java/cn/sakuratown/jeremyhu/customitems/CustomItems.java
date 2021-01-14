@@ -1,5 +1,7 @@
 package cn.sakuratown.jeremyhu.customitems;
 
+import cn.sakuratown.jeremyhu.customitems.enchantments.EnchantmentsBuilder;
+import cn.sakuratown.jeremyhu.customitems.enchantments.TrackingEnchantment;
 import cn.sakuratown.jeremyhu.customitems.items.ItemBuilder;
 import cn.sakuratown.jeremyhu.customitems.listeners.EntityDamageByEntityListener;
 import cn.sakuratown.jeremyhu.customitems.listeners.PlayerInteractListener;
@@ -38,7 +40,15 @@ public class CustomItems extends JavaPlugin {
             }
             //命令发送者不属于玩家，返回
             Player player = (Player) sender;
-            player.getInventory().addItem(ItemBuilder.getInstance().cd(6).damage(15).type("Gun").name("小E的牛子").build());
+            player.getInventory().addItem(ItemBuilder.getInstance()
+                    .cd(6)
+                    .damage(15)
+                    .type("Gun")
+                    .name("小E的牛子")
+                    .enchantments(EnchantmentsBuilder.getInstance()
+                            .enchant(new TrackingEnchantment())
+                            .build())
+                    .build());
             player.sendMessage("已经给予你一个特殊物品");
             return true;
         }
