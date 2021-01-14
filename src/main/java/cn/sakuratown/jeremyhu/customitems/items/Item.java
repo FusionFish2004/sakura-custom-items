@@ -1,6 +1,7 @@
 package cn.sakuratown.jeremyhu.customitems.items;
 
 import cn.sakuratown.jeremyhu.customitems.enchantments.Enchantment;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -76,7 +77,12 @@ public class Item {
     }
 
     public void cooldown(Player player){
-        player.setCooldown(player.getInventory().getItemInMainHand().getType(),CD);
+
+        Material material = player.getInventory().getItemInMainHand().getType();
+
+        if(!player.hasCooldown(material)) {
+            player.setCooldown(material, CD);
+        }
     }
 
 }

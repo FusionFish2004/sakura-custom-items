@@ -28,6 +28,7 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
+
         Player player = event.getPlayer();
         ItemStack itemStack = player.getInventory().getItemInMainHand();
         if(itemStack.getType() == Material.AIR) return;
@@ -36,6 +37,13 @@ public class PlayerInteractListener implements Listener {
         //获取物品meta
         if(!ItemUtil.isItem(itemMeta)) return;
         //检测物品meta是否拥有数据，若否则返回
+
+        if(player.hasCooldown(itemStack.getType())){
+            event.setCancelled(true);
+            return;
+        }
+
+
         ItemBuilder.buildItem(itemMeta).trigger(event);
         event.setCancelled(true);
     }

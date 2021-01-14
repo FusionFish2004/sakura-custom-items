@@ -28,14 +28,16 @@ public class Bullet extends BukkitRunnable {
     private Location position;
     private World world;
     private Player shooter;
+    private double damage;
 
-    public Bullet(Location start, Vector direction, double health, double speed, Player shooter){
+    public Bullet(Location start, Vector direction, double health, double speed, Player shooter, double damage){
         this.speed = speed;
         this.direction = direction.clone();
         this.position = start.clone();
         this.health = health;
         this.world = position.getWorld();
         this.shooter = shooter;
+        this.damage = damage;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class Bullet extends BukkitRunnable {
 
         position.add(direction.clone().multiply(speed));
 
-        world.spawnParticle(Particle.END_ROD, position, 3, 0, 0, 0, 0.1);
+        world.spawnParticle(Particle.BUBBLE_POP, position, 1, 0, 0, 0, 0.1);
         //绘制粒子
 
     }
@@ -62,7 +64,7 @@ public class Bullet extends BukkitRunnable {
             entityCollection.forEach(entity -> {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
-                    livingEntity.damage(100,shooter);
+                    livingEntity.damage(damage,shooter);
                 } else {
                     entity.remove();
                 }

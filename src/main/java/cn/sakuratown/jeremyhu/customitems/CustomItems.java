@@ -38,7 +38,7 @@ public class CustomItems extends JavaPlugin {
             }
             //命令发送者不属于玩家，返回
             Player player = (Player) sender;
-            player.getInventory().addItem(ItemBuilder.getInstance().cd(6).damage(10).type("Gun").name("小E的牛子").build());
+            player.getInventory().addItem(ItemBuilder.getInstance().cd(6).damage(15).type("Gun").name("小E的牛子").build());
             player.sendMessage("已经给予你一个特殊物品");
             return true;
         }

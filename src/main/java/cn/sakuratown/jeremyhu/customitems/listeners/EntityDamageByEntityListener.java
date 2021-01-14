@@ -12,6 +12,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * 实体伤害监听器
+ * @author JeremyHu
+ */
+
 public class EntityDamageByEntityListener implements Listener {
 
     private static CustomItems plugin = JavaPlugin.getPlugin(CustomItems.class);
@@ -23,8 +28,6 @@ public class EntityDamageByEntityListener implements Listener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event){
 
-        event.getDamager().sendMessage("adaushda");
-
         if(!(event.getDamager() instanceof Player)) return;
 
         Player player = (Player)event.getDamager();
@@ -35,7 +38,5 @@ public class EntityDamageByEntityListener implements Listener {
         if(!ItemUtil.isItem(itemMeta)) return;
         //检测物品meta是否拥有数据，若否则返回
 
-        event.setCancelled(true);
-        //取消事件
     }
 }
