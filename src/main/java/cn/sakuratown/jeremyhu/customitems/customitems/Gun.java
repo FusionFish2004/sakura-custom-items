@@ -38,7 +38,7 @@ public class Gun extends Item {
     public void shoot(Player player){
         Vector direction = player.getLocation().getDirection();
         Location start = player.getEyeLocation();
-        Bullet bullet = new Bullet(start,direction,health,speed);
+        Bullet bullet = new Bullet(start,direction,health,speed, player);
         bullet.start();
     }
 

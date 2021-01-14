@@ -1,6 +1,7 @@
 package cn.sakuratown.jeremyhu.customitems;
 
 import cn.sakuratown.jeremyhu.customitems.items.ItemBuilder;
+import cn.sakuratown.jeremyhu.customitems.listeners.EntityDamageByEntityListener;
 import cn.sakuratown.jeremyhu.customitems.listeners.PlayerInteractListener;
 import cn.sakuratown.jeremyhu.customitems.utils.FileUtil;
 import org.bukkit.Bukkit;
@@ -21,9 +22,12 @@ public class CustomItems extends JavaPlugin {
 
     @Override
     public void onEnable(){
-        Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(this),this);
+        Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(),this);
         //注册玩家交互监听器
+        Bukkit.getPluginManager().registerEvents(new EntityDamageByEntityListener(),this);
+        //注册实体伤害监听器
         Bukkit.getPluginCommand("si").setExecutor(this);
+        //注册测试指令
     }
 
     @Override
