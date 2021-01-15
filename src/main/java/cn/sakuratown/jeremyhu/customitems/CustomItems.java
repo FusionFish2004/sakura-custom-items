@@ -1,6 +1,7 @@
 package cn.sakuratown.jeremyhu.customitems;
 
 import cn.sakuratown.jeremyhu.customitems.enchantments.EnchantmentsBuilder;
+import cn.sakuratown.jeremyhu.customitems.enchantments.MultishotEnchantment;
 import cn.sakuratown.jeremyhu.customitems.enchantments.TrackingEnchantment;
 import cn.sakuratown.jeremyhu.customitems.items.ItemBuilder;
 import cn.sakuratown.jeremyhu.customitems.listeners.EntityDamageByEntityListener;
@@ -43,14 +44,15 @@ public class CustomItems extends JavaPlugin {
             if(!player.isOp()) return false;
             player.getInventory().addItem(ItemBuilder.getInstance()
                     .cd(3)
-                    .damage(50)
+                    .damage(5)
                     .type("Gun")
                     .name("小E的牛子")
                     .enchantments(EnchantmentsBuilder.getInstance()
                             .enchant(new TrackingEnchantment())
+                            .enchant(new MultishotEnchantment())
                             .build())
                     .build());
-            player.sendMessage("已经给予你一个特殊物品");
+            player.sendMessage("已给予你一个特殊物品");
             return true;
         }
         return false;

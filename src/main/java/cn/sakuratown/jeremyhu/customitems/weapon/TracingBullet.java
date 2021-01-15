@@ -36,7 +36,7 @@ public class TracingBullet extends Bullet{
             }
         }
         if(tracking!=null){
-            Vector attract = tracking.getLocation().toVector().clone().subtract(getPosition().toVector()).normalize().multiply(0.1);
+            Vector attract = tracking.getEyeLocation().toVector().clone().subtract(getPosition().toVector()).normalize().multiply(0.1);
             setDirection(getDirection().clone().add(attract).normalize());
         }
 

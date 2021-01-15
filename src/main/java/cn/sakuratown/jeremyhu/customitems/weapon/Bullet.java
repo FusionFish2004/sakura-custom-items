@@ -71,6 +71,11 @@ public class Bullet extends BukkitRunnable {
         this.position = position;
     }
 
+    public void setDamage(double damage) {
+        this.damage = damage;
+    }
+
+
     @Override
     public void run() {
 
@@ -127,6 +132,11 @@ public class Bullet extends BukkitRunnable {
         //碰撞时触发本方法
 
         this.cancel();
+    }
+
+    @Override
+    public Bullet clone(){
+        return new Bullet(position,direction,health,speed,shooter,damage);
     }
 
     public void start(){

@@ -42,6 +42,10 @@ public class EnchantmentsBuilder {
         switch (enchantment.getType()){
             case "TrackingEnchantment":
                 return new TrackingEnchantment();
+            case "MultishotEnchantment":
+                return new MultishotEnchantment();
+            case "OrbitalEnchantment":
+                return new OrbitalEnchantment();
         }
         return new GunEnchantment();
     }
