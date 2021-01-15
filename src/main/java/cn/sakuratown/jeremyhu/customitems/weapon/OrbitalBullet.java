@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 public class OrbitalBullet extends Bullet{
 
     private int angle = 0;
-    private static final double radius = 3;
+    private static final double radius = 1.5;
     private Vector vector;
 
     public OrbitalBullet(Location start, Vector direction, double health, double speed, Player shooter, double damage) {
@@ -18,9 +18,11 @@ public class OrbitalBullet extends Bullet{
 
     @Override
     public void run(){
+        vector.rotateAroundY(Math.toRadians(6));
         checkCollision();
         runBasic();
         Location location = getShooter().getEyeLocation();
+        setPosition(location.clone().add(vector));
 
 
         drawParticle();
@@ -35,6 +37,10 @@ public class OrbitalBullet extends Bullet{
         double damage = bullet.getDamage();
         Player shooter = bullet.getShooter();
 
-        return new OrbitalBullet(start,direction,health,speed,shooter,damage);
+        OrbitalBullet orbitalBullet = new OrbitalBullet(start,direction,health,speed,shooter,damage);
+        orbitalBullet.setFlame(bullet.isFlame());
+        orbitalBullet.setVampire(bullet.isVampire());
+
+        return orbitalBullet;
     }
 }

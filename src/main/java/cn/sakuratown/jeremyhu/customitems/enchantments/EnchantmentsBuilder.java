@@ -39,14 +39,26 @@ public class EnchantmentsBuilder {
     }
 
     public static GunEnchantment toGunEnchantment(Enchantment enchantment){
-        switch (enchantment.getType()){
+        /*switch (enchantment.getType()){
             case "TrackingEnchantment":
                 return new TrackingEnchantment();
             case "MultishotEnchantment":
                 return new MultishotEnchantment();
             case "OrbitalEnchantment":
                 return new OrbitalEnchantment();
+            case "FlamingEnchantment":
+                return new FlamingEnchantment();
+            case "VampireEnchantment":
+                return new VampireEnchantment();
         }
-        return new GunEnchantment();
+
+         */
+        try{
+            //使用反射创建对象
+            Class cls = Class.forName(GunEnchantment.class.getPackage().getName() + "." + enchantment.getType());
+            return (GunEnchantment)cls.newInstance();
+        }catch (Exception e){
+            return new GunEnchantment();
+        }
     }
 }

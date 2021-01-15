@@ -53,7 +53,11 @@ public class TracingBullet extends Bullet{
         double damage = bullet.getDamage();
         Player shooter = bullet.getShooter();
 
-        return new TracingBullet(start,direction,health,speed,shooter,damage);
+        TracingBullet tracingBullet = new TracingBullet(start,direction,health,speed,shooter,damage);
+        tracingBullet.setFlame(bullet.isFlame());
+        tracingBullet.setVampire(bullet.isVampire());
+
+        return tracingBullet;
     }
 
     public LivingEntity getNearestEntity(Collection<Entity> entities){

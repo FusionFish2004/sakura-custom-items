@@ -103,7 +103,6 @@ public class Gun extends Item {
 
             List<Bullet> bullets = new ArrayList<>();
             bullets.add(new Bullet(start, direction, health, speed, player, getDamage()));
-
             List<GunEnchantment> gunEnchantments = enchantments.stream()
                     .filter(enchantment -> "GunEnchantment".equalsIgnoreCase(enchantment.getCatagory()))
                     .map(EnchantmentsBuilder::toGunEnchantment)

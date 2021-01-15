@@ -1,6 +1,7 @@
 package cn.sakuratown.jeremyhu.customitems.items;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
+import cn.sakuratown.jeremyhu.customitems.customitems.ForceField;
 import cn.sakuratown.jeremyhu.customitems.customitems.Gun;
 import cn.sakuratown.jeremyhu.customitems.enchantments.Enchantment;
 import cn.sakuratown.jeremyhu.customitems.enchantments.EnchantmentsBuilder;
@@ -58,7 +59,7 @@ public class ItemBuilder {
 
     public ItemStack build(){
         ItemStack itemStack = new ItemStack(Material.LEATHER_HORSE_ARMOR);
-        if(damage == 0 || cd == 0 || name == "") return itemStack;
+        if(cd == 0 || name == "") return itemStack;
         //若没有存储数据，则返回普通物品
         ItemMeta itemMeta = itemStack.getItemMeta();
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
@@ -116,6 +117,8 @@ public class ItemBuilder {
         switch(type.toLowerCase()){
             case "gun":
                 return Gun.fromItem(item);
+            case "forcefield":
+                return ForceField.fromItem(item);
         }
         return item;
     }

@@ -1,6 +1,7 @@
 package cn.sakuratown.jeremyhu.customitems.weapon;
 
 import cn.sakuratown.jeremyhu.customitems.CustomItems;
+import cn.sakuratown.jeremyhu.customitems.utils.ActionBarUtil;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
@@ -28,6 +29,8 @@ public class Bullet extends BukkitRunnable {
     private World world;
     private Player shooter;
     private double damage;
+    private boolean flame = false;
+    private boolean vampire = false;
 
     public Bullet(Location start, Vector direction, double health, double speed, Player shooter, double damage){
         this.speed = speed;
@@ -38,6 +41,23 @@ public class Bullet extends BukkitRunnable {
         this.shooter = shooter;
         this.damage = damage;
     }
+
+    public boolean isVampire() {
+        return vampire;
+    }
+
+    public void setVampire(boolean vampire) {
+        this.vampire = vampire;
+    }
+
+    public boolean isFlame() {
+        return flame;
+    }
+
+    public void setFlame(boolean flame) {
+        this.flame = flame;
+    }
+
 
     public double getSpeed() {
         return speed;
@@ -87,12 +107,17 @@ public class Bullet extends BukkitRunnable {
 
     public void runBasic(){
         if(i >= health){
+            world.spawnParticle(Particle.CLOUD,position,2,0.1,0.1,0.1,0.001);
             this.cancel();
         }
         i++;
     }
 
     public void drawParticle(){
+        if(isFlame()){
+            world.spawnParticle(Particle.FLAME,position,1,0,0,0,0.001);
+            return;
+        }
         world.spawnParticle(Particle.BUBBLE_POP, position, 1, 0, 0, 0, 0.1);
         //绘制粒子
     }
@@ -105,7 +130,18 @@ public class Bullet extends BukkitRunnable {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
                     livingEntity.damage(damage,shooter);
-
+                    if(isFlame()){
+                        livingEntity.setFireTicks(120);
+                    }
+                    if(isVampire()){
+                        double health = shooter.getHealth();
+                        if((health + damage) > 20){
+                            shooter.setHealth(20);
+                        }else{
+                            shooter.setHealth(health + damage);
+                        }
+                        ActionBarUtil.sendActionBar(shooter,"§c§l吸血 + " + damage + "HP");
+                    }
                     Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(255,0,0),3);
                     world.spawnParticle(Particle.REDSTONE,position, 5,0.2,0.2,0.2,0.00001,dustOptions);
 
